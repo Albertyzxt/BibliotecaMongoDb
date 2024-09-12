@@ -11,19 +11,19 @@ exports.createAutor = async (req, res) => {
 
 exports.getAutores = async (req, res) => {
   try {
-    const autores = await Autor.find().populate('id_pet');
+    const autores = await Autor.find();
     res.status(200).json(autores);
   } catch (error) {
-    res.status(400).json({ error: 'Erro ao buscar autores' });
+    res.status(400).json({ error: 'Erro ao buscar autores', details: error.message });
   }
 };
 
 exports.getAutorById = async (req, res) => {
   try {
-    const autor = await Autor.findById(req.params.id).populate('id_pet');
+    const autor = await Autor.findById(req.params.id) 
     res.status(200).json(autor);
   } catch (error) {
-    res.status(404).json({ error: 'Autor não encontrado' });
+    res.status(404).json({ error: 'Autor não encontrado', details: error.message });
   }
 };
 
@@ -32,7 +32,7 @@ exports.updateAutor = async (req, res) => {
     const autor = await Autor.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(autor);
   } catch (error) {
-    res.status(400).json({ error: 'Erro ao atualizar autor' });
+    res.status(400).json({ error: 'Erro ao atualizar autor', details: error.message });
   }
 };
 
@@ -41,6 +41,7 @@ exports.deleteAutor = async (req, res) => {
     await Autor.findByIdAndDelete(req.params.id);
     res.status(204).json();
   } catch (error) {
-    res.status(400).json({ error: 'Erro ao deletar autor' });
+    res.status(400).json({ error: 'Erro ao deletar autor', details: error.message });
+
   }
 };
